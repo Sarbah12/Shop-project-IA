@@ -1,26 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import * as Font from 'expo-font'
-import AppNavigator from './src/navigations/Navigator'
-import {AppLoading} from 'expo'
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-export default class App extends React.Component {
-  state={
-    isFontLoaded:false
-  }
-  async componentDidMount(){
-    await Font.loadAsync({
-      'Bold' : require('./src/fonts/Montserrat-ExtraBold.otf'),
-      'Medium' : require('./src/fonts/Montserrat-Medium.otf'),
-      'Regular' : require('./src/fonts/Montserrat-Regular.otf'),
-    });
-    this.setState({isFontLoaded:true})
-  }
-  render(){
-    return (
-   (this.state.isFontLoaded === true )? (<AppNavigator/>):(<AppLoading/>)
-      );
-  }
+const Stack = createStackNavigator();
+import HomeScreen from './src/view/screens/HomeScreen';
+import DetailsSceeen from './src/view/screens/DetailsScreen';
+import {StatusBar} from 'react-native';
+import COLORS from './src/consts/colors';
 
-}
+const App = () => {
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
+      <Stack.Navigator screenOptions={{header: () => null}}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsSceeen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
